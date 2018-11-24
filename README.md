@@ -1,1 +1,1 @@
-Typical examples in the Book of The Go Programming 0f Language.
+Typical examples in the Book of The Go Programming 0f Language which published by China Mechine Press.

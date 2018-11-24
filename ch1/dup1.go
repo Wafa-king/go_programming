@@ -10,14 +10,12 @@ import (
 func main() {
 	counts := make(map[string]int)
 	input := bufio.NewScanner(os.Stdin)
-	fmt.Println(11, input)
 	for input.Scan() {
 		counts[input.Text()]++
 	}
-	// 注意：忽略input.Err()中可能出现的错误
 	for line, n := range counts {
 		if n > 1 {
-			fmt.Println("%d\t%s\n", n, line)
+			fmt.Printf("%s\t%s\n", n, line)
 		}
 	}
 }

@@ -19,7 +19,7 @@ func main() {
 	for range os.Args[1:] {
 		fmt.Println(<-ch)
 	}
-	fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
+	fmt.Printf("total: %.2fs\n", time.Since(start).Seconds())
 }
 
 func fetch(url string, ch chan<- string) {
@@ -32,10 +32,10 @@ func fetch(url string, ch chan<- string) {
 	nbytes, err := io.Copy(ioutil.Discard, resp.Body)
 	resp.Body.Close()
 	if err != nil {
-		ch <- fmt.Sprintf("while reading: %s: %v", url, err)
+		ch <- fmt.Sprintf("Copy: %s: %v", url, err)
 		return
 	}
 	secs := time.Since(start).Seconds()
-	ch <- fmt.Sprintf("%.2fs   %7d	 %s", secs, nbytes, url)
+	ch <- fmt.Sprintf("%.2fs, %7d, %s", secs, nbytes, url)
 
 }

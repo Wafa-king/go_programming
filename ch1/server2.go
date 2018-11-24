@@ -8,24 +8,26 @@ import (
 	"sync"
 )
 
-var mu sync.Mutex
 var count int
+var mu sync.Mutex
 
 func main() {
-	http.HandleFunc("/", handler)
-	http.HandleFunc("/count", counter)
+	http.HandleFunc("/", Handler)
+	http.HandleFunc("/counter", Counter)
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+// Handler 处理回显请求的URL路径部分
+func Handler(w http.ResponseWriter, r *http.Request) {
 	mu.Lock()
 	count++
 	mu.Unlock()
 	fmt.Fprintf(w, "URL.PATH= %q\n", r.URL.Path)
 }
 
-func counter(w http.ResponseWriter, r *http.Request) {
+// Counter 回显目前为止调用的次数
+func Counter(w http.ResponseWriter, r *http.Request) {
 	mu.Lock()
-	fmt.Fprintf(w, "Count %d\n", count)
+	fmt.Fprintf(w, "Counter: %d\n", count)
 	mu.Unlock()
 }

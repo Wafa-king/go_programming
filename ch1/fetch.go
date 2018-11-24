@@ -6,9 +6,11 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
+	start := time.Now()
 	for _, url := range os.Args[1:] {
 		resp, err := http.Get(url)
 		if err != nil {
@@ -18,9 +20,11 @@ func main() {
 		b, err := ioutil.ReadAll(resp.Body)
 		resp.Body.Close()
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
-			os.Exit(2)
+			fmt.Fprintf(os.Stderr, "ReadAll: %v\n", err)
+			os.Exit(1)
 		}
-		fmt.Printf("%s\n", b)
+		fmt.Printf("%s", b)
+		fmt.Println(resp.Header)
 	}
+	fmt.Printf("total time: %.2fs\n", time.Since(start).Seconds())
 }
